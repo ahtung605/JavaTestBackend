@@ -1,16 +1,16 @@
 package org.example;
 
+import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Properties;
 
-//import static com.sun.org.apache.xerces.internal.util.FeatureState.is;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
+//import static org.hamcrest.Matchers.equalToIgnoringCase;
+//import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
 /**
  * @author Konstantin Babenko
@@ -23,11 +23,12 @@ public class HomeWork_3Test<prop> {
     private final String baseUrl = "https://api.spoonacular.com";
     private final String baseSearch = "/recipes/complexSearch";
     private final String cuisine = "/recipes/cuisine";
-// Properties prop;
 
-//    Properties prop = new Properties();
-//    prop.load(output);
-//    prop.getProperty("apiKey");
+    @BeforeAll
+    static void setUp() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+    }
+
     @Test
     void getRecipeComplexSearchBaseTest(){
         given()
@@ -86,6 +87,7 @@ public class HomeWork_3Test<prop> {
                 .queryParam("titleMatch", "potato")
                 .when()
                 .get(baseUrl+baseSearch)
+//                .prettyPeek()
                 .then()
                 .statusCode(200)
                 .extract().jsonPath();
@@ -102,6 +104,7 @@ public class HomeWork_3Test<prop> {
                         + "}")
                 .when()
                 .post(baseUrl+"/users/connect")
+//                .prettyPeek()
                 .then()
                 .statusCode(200)
                 .extract()
@@ -120,17 +123,17 @@ public class HomeWork_3Test<prop> {
                         + " \"position\": 0,\n"
                         + " \"type\": \"INGREDIENTS\",\n"
                         + " \"value\": {\n"
-                        + " \"ingredients\": [\n"
-                        + " {\n"
-                        + " \"name\": \"1 banana\"\n"
-                        + " }\n"
-                        + " ]\n"
+                        + "     \"ingredients\": [\n"
+                        + "         {\n"
+                        + "             \"name\": \"1 banana\"\n"
+                        + "         }\n"
+                        + "     ]\n"
                         + " }\n"
                         + "}")
                 .when()
-                .post(baseUrl+cuisine)
+                .post(baseUrl+"/mealplanner/geekbrains/items")
                 .then()
-                .statusCode(200)
+//                .statusCode(200)
                 .extract()
                 .jsonPath()
                 .get("id")
