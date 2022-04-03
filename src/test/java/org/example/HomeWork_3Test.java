@@ -196,26 +196,59 @@ public class HomeWork_3Test<prop> {
 
 
     @Test // из примера урока - не заработало!!!! не могу авторизоаться
-    void addMealTest() {
-        String hash = given()
+    void addShoppingListTest() {
+//        String hash = given()
+//                .queryParam("apiKey", apiKey)
+//                .body("{\n"
+//                        + " \"username\": Bob \n"
+////                        + " \"firstName\": firstname \n"
+////                        + " \"lastName\": lastname \n"
+////                        + " \"email\": z@z.com \n"
+//                        + "}")
+//                .when()
+//                .post(baseUrl+"/users/connect")
+//                .prettyPeek()
+//                .then()
+//                .statusCode(200)
+//                .extract()
+//                .jsonPath()
+//                .get("hash")
+//                .toString();
+//        System.out.println(hash);
+
+        // при добавлении пользователя со своим именем - сервис присваивает свои имена!!!!!!!!!!!!!!!!
+        JsonPath response = given()
                 .queryParam("apiKey", apiKey)
                 .body("{\n"
-                        + " \"username\": Bob\n"
+                        + " \"username\": Bob \n"
+//                        + " \"firstName\": firstname \n"
+//                        + " \"lastName\": lastname \n"
+//                        + " \"email\": z@z.com \n"
                         + "}")
                 .when()
                 .post(baseUrl+"/users/connect")
-//                .prettyPeek()
+                .prettyPeek()
                 .then()
                 .statusCode(200)
                 .extract()
-                .jsonPath()
-                .get("hash")
-                .toString();
-        System.out.println(hash);
+                .jsonPath();
+        String userN = response.get("username"); // при добавлении пользователя со своим именем - сервис присваивает свои имена!!!!!!!!!!!!!!!!
+        String hash = response.get("hash");
+        System.out.println(userN + "\n" + hash);
 
+        //попытка получить шопингЛист созданного пользователя
+        JsonPath resp = given()
+                .pathParam("username", userN)
+                .queryParam("hash", hash)                  // не могу авторизоаться
+                .when()
+                .get(baseUrl+"/mealplanner/{username}/shopping-list")
+                .then()
+                .statusCode(200)
+                .extract().jsonPath();
 
         String id = given()
-                .queryParam("username", "Bob") // не могу авторизоаться
+//                .queryParam("username", username)          // не могу авторизоаться
+                .pathParam("username", userN)               // не могу авторизоаться
                 .queryParam("hash", hash)
 //                .queryParam("apiKey", apiKey)
                 .body("{\n"
@@ -232,7 +265,7 @@ public class HomeWork_3Test<prop> {
                         + " }\n"
                         + "}")
                 .when()
-                .post(baseUrl+"/mealplanner/sname/shopping-list/items")
+                .post(baseUrl+"/mealplanner/{username}/shopping-list/items")
 //                .prettyPeek()
                 .then()
                 .statusCode(200)
@@ -245,7 +278,7 @@ public class HomeWork_3Test<prop> {
         given()
                 .queryParam("hash", hash)
                 .queryParam("apiKey", apiKey)
-                .delete("https://api.spoonacular.com/mealplanner/sname/items/" + id)
+                .delete("https://api.spoonacular.com/mealplanner/:username/items/" + id)
                 .then()
                 .statusCode(200);
     }
