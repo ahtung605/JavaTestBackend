@@ -22,7 +22,6 @@ public class HomeWork_3Test<prop> {
     private final String apiKey = "51e3d26cb8ab4880b0e20b97bd1b2fe7";
     private final String baseUrl = "https://api.spoonacular.com";
     private final String baseSearch = "/recipes/complexSearch";
-    private final String cuisine = "/recipes/cuisine";
 
     @BeforeAll
     static void setUp() {
@@ -96,11 +95,112 @@ public class HomeWork_3Test<prop> {
     }
 
     @Test
+    void addRecipe1() {
+        String cuisine = given()
+                .queryParam("apiKey", apiKey)
+//                .queryParam("hash", "9f70227c0d9d382aa3a7601299550aae10d19077")
+                .body("{\n"
+                        + " \"title\": Pork roast with green beans, \n"
+                        + " \"ingredientList\": 3 oz pork shoulder apple potato \n"
+                        + "}")
+                .when()
+                .post(baseUrl+"/recipes/cuisine")
+                .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .get("cuisine")
+                .toString();
+        System.out.println(cuisine);
+        assertThat(cuisine, equalTo("Mediterranean"));
+    }
+
+    @Test
+    void addRecipe2() {
+        String cuisine = given()
+                .queryParam("apiKey", apiKey)
+                .body("{\n"
+                        + " \"title\": Tea, \n"
+                        + " \"ingredientList\": tea and water \n"
+                        + "}")
+                .when()
+                .post(baseUrl+"/recipes/cuisine")
+                .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .get("cuisine")
+                .toString();
+        System.out.println(cuisine);
+        assertThat(cuisine, equalTo("Mediterranean"));
+    }
+    @Test
+    void addRecipe3() {
+        String cuisine = given()
+                .queryParam("apiKey", apiKey)
+                .body("{\n"
+                        + " \"title\": eggs, \n"
+                        + " \"ingredientList\": eggs and oil \n"
+                        + "}")
+                .when()
+                .post(baseUrl+"/recipes/cuisine")
+                .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .get("cuisine")
+                .toString();
+        System.out.println(cuisine);
+        assertThat(cuisine, equalTo("Mediterranean"));
+    }
+    @Test
+    void addRecipe4() {
+        String cuisine = given()
+                .queryParam("apiKey", apiKey)
+//                .queryParam("hash", "9f70227c0d9d382aa3a7601299550aae10d19077")
+                .body("{\n"
+                        + " \"title\": Potato \n"
+                        + " \"ingredientList\": potato and oil\n"
+                        + "}")
+                .when()
+                .post(baseUrl+"/recipes/cuisine")
+                .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .get("cuisine")
+                .toString();
+        System.out.println(cuisine);
+        assertThat(cuisine, equalTo("Mediterranean"));
+    }
+    @Test
+    void addRecipe5() {
+        String cuisine = given()
+                .queryParam("apiKey", apiKey)
+//                .queryParam("hash", "9f70227c0d9d382aa3a7601299550aae10d19077")
+                .body("{\n"
+                        + " \"title\": Soup, \n"
+                        + " \"ingredientList\": water \n meat \n"
+                        + "}")
+                .when()
+                .post(baseUrl+"/recipes/cuisine")
+                .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .get("cuisine")
+                .toString();
+        System.out.println(cuisine);
+        assertThat(cuisine, equalTo("Mediterranean"));
+    }
+
+
+    @Test // из примера урока - не заработало!!!! не могу авторизоаться
     void addMealTest() {
         String hash = given()
                 .queryParam("apiKey", apiKey)
                 .body("{\n"
-                        + " \"username\": sname\n"
+                        + " \"username\": Bob\n"
                         + "}")
                 .when()
                 .post(baseUrl+"/users/connect")
@@ -115,8 +215,9 @@ public class HomeWork_3Test<prop> {
 
 
         String id = given()
+                .queryParam("username", "Bob") // не могу авторизоаться
                 .queryParam("hash", hash)
-                .queryParam("apiKey", apiKey)
+//                .queryParam("apiKey", apiKey)
                 .body("{\n"
                         + " \"date\": 1644881179,\n"
                         + " \"slot\": 1,\n"
@@ -131,34 +232,8 @@ public class HomeWork_3Test<prop> {
                         + " }\n"
                         + "}")
                 .when()
-                .post(baseUrl+"/mealplanner/geekbrains/items")
-                .then()
-//                .statusCode(200)
-                .extract()
-                .jsonPath()
-                .get("id")
-                .toString();
-        System.out.println(id);
-
-        given()
-                .queryParam("hash", "a3da66460bfb7e62ea1c96cfa0b7a634a346ccbf")
-                .queryParam("apiKey", apiKey)
-                .delete("https://api.spoonacular.com/mealplanner/geekbrains/items/" + id)
-                .then()
-                .statusCode(200);
-    }
-
-    @Test
-    void addRecipe1() {
-        String id = given()
-                .queryParam("apiKey", apiKey)
-//                .queryParam("hash", "9f70227c0d9d382aa3a7601299550aae10d19077")
-                .body("{\n"
-                        + " \"title\": Pork roast with green beans, \n"
-                        + " \"ingredientList\": 3 oz pork shoulder apple potato \n"
-                        + "}")
-                .when()
-                .post(baseUrl+cuisine)
+                .post(baseUrl+"/mealplanner/sname/shopping-list/items")
+//                .prettyPeek()
                 .then()
                 .statusCode(200)
                 .extract()
@@ -166,5 +241,14 @@ public class HomeWork_3Test<prop> {
                 .get("id")
                 .toString();
         System.out.println(id);
+
+        given()
+                .queryParam("hash", hash)
+                .queryParam("apiKey", apiKey)
+                .delete("https://api.spoonacular.com/mealplanner/sname/items/" + id)
+                .then()
+                .statusCode(200);
     }
+
+
 }
