@@ -152,7 +152,7 @@ public class HomeWork_3Test<prop> {
     void addRecipe1() {
         String id = given()
                 .queryParam("apiKey", apiKey)
-                .queryParam("hash", "9f70227c0d9d382aa3a7601299550aae10d19077")
+//                .queryParam("hash", "9f70227c0d9d382aa3a7601299550aae10d19077")
                 .body("{\n"
                         + " \"title\": Pork roast with green beans, \n"
                         + " \"ingredientList\": 3 oz pork shoulder apple potato \n"
