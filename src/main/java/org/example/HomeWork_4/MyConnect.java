@@ -1,7 +1,6 @@
-package org.example;
+package org.example.HomeWork_4;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -18,19 +17,22 @@ import lombok.Data;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "cuisine",
-        "cuisines",
-        "confidence"
+        "status",
+        "username",
+        "spoonacularPassword",
+        "hash"
 })
 @Data
-public class MyCuisine {
+public class MyConnect {
 
-    @JsonProperty("cuisine")
-    public String cuisine;
-    @JsonProperty("cuisines")
-    public List<String> cuisines = null;
-    @JsonProperty("confidence")
-    public Double confidence;
+    @JsonProperty("status")
+    public String status;
+    @JsonProperty("username")
+    public String username;
+    @JsonProperty("spoonacularPassword")
+    public String spoonacularPassword;
+    @JsonProperty("hash")
+    public String hash;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

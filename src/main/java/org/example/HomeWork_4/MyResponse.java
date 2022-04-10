@@ -1,6 +1,7 @@
-package org.example;
+package org.example.HomeWork_4;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -10,29 +11,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
-/**
- * @author Konstantin Babenko
- * @create 04.04.2022
- */
+//import javax.xml.transform.Result;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "status",
-        "username",
-        "spoonacularPassword",
-        "hash"
+//        "results",
+        "offset",
+        "number",
+        "totalResults"
 })
 @Data
-public class MyConnect {
+public class MyResponse<Result> {
 
-    @JsonProperty("status")
-    public String status;
-    @JsonProperty("username")
-    public String username;
-    @JsonProperty("spoonacularPassword")
-    public String spoonacularPassword;
-    @JsonProperty("hash")
-    public String hash;
+    @JsonProperty("results")
+    public List<Result> results = null;
+    @JsonProperty("offset")
+    public Integer offset;
+    @JsonProperty("number")
+    public Integer number;
+    @JsonProperty("totalResults")
+    public Integer totalResults;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.HomeWork_4;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,26 +11,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
-//import javax.xml.transform.Result;
+/**
+ * @author Konstantin Babenko
+ * @create 04.04.2022
+ */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-//        "results",
-        "offset",
-        "number",
-        "totalResults"
+        "cuisine",
+        "cuisines",
+        "confidence"
 })
 @Data
-public class MyResponse<Result> {
+public class MyCuisine {
 
-    @JsonProperty("results")
-    public List<Result> results = null;
-    @JsonProperty("offset")
-    public Integer offset;
-    @JsonProperty("number")
-    public Integer number;
-    @JsonProperty("totalResults")
-    public Integer totalResults;
+    @JsonProperty("cuisine")
+    public String cuisine;
+    @JsonProperty("cuisines")
+    public List<String> cuisines = null;
+    @JsonProperty("confidence")
+    public Double confidence;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
